@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.MemberBenefitMapper">
+
+    <resultMap id="memberBenefitMap" type="com.example.demo.entity.MemberBenefit">
+        <id column="id" property="id"/>
+        <result column="level_id" property="levelId"/>
+        <result column="benefit_name" property="benefitName"/>
+        <result column="benefit_type" property="benefitType"/>
+        <result column="benefit_value" property="benefitValue"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="findByLevelId" resultMap="memberBenefitMap">
+        SELECT * FROM member_benefit WHERE level_id = #{levelId} AND status = 1
+    </select>
+
+    <select id="findAll" resultMap="memberBenefitMap">
+        SELECT * FROM member_benefit ORDER BY level_id ASC, id ASC
+    </select>
+
+    <select id="findById" resultMap="memberBenefitMap">
+        SELECT * FROM member_benefit WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO member_benefit (level_id, benefit_name, benefit_type, benefit_value,
+                                    description, status, create_time, update_time)
+        VALUES (#{levelId}, #{benefitName}, #{benefitType}, #{benefitValue},
+                #{description}, #{status}, NOW(), NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE member_benefit
+        <set>
+            <if test="levelId != null">level_id = #{levelId},</if>
+            <if test="benefitName != null">benefit_name = #{benefitName},</if>
+            <if test="benefitType != null">benefit_type = #{benefitType},</if>
+            <if test="benefitValue != null">benefit_value = #{benefitValue},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+            update_time = NOW(),
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM member_benefit WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByLevelId">
+        DELETE FROM member_benefit WHERE level_id = #{levelId}
+    </delete>
+
+</mapper>

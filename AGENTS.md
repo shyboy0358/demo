@@ -4,7 +4,7 @@
 
 ### Project overview
 
-This is a Spring Boot 2.1.6 demo application (Java 8, Maven). It includes starters for Web, Security, Redis, MyBatis, Actuator, and DevTools. There are no custom controllers active (the only controller has `@Controller` commented out) and `application.properties` is empty.
+Spring Boot 2.1.6 积分商城 demo (Java 8, Maven). 包含会员等级和权益模块，使用 H2 内存数据库、MyBatis ORM、Spring Security、Redis 和 Actuator。
 
 ### System dependencies
 
@@ -14,20 +14,31 @@ This is a Spring Boot 2.1.6 demo application (Java 8, Maven). It includes starte
 ### Building and testing
 
 - Build: `JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./mvnw compile`
-- Test: `JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./mvnw test -Dspring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration`
+- Test: `JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./mvnw test`
 - Package: `JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./mvnw package -DskipTests`
 
 ### Running the application
 
 ```bash
-JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./mvnw spring-boot:run \
-  -Dspring-boot.run.arguments="--spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration"
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./mvnw spring-boot:run
 ```
 
-The app starts on port **8080**. Spring Security generates a random password printed in the console log (look for `Using generated security password:`). Default username is `user`.
+The app starts on port **8080**. API endpoints under `/api/**` are open (no auth required). H2 console is at `/h2-console`.
+
+### Key API endpoints
+
+- `GET /api/levels` — 查询所有会员等级
+- `GET /api/levels/{id}/detail` — 等级详情（含权益列表）
+- `GET /api/levels/match?points=N` — 按积分匹配等级
+- `POST /api/members/register` — 注册新会员
+- `GET /api/members/{id}/profile` — 会员资料（含等级、权益、升级距离）
+- `POST /api/members/points/earn` — 获取积分（自动触发升级）
+- `POST /api/members/points/spend` — 消费积分
+- `GET /api/members/{id}/points/history` — 积分变动记录
+- `GET/POST/PUT/DELETE /api/benefits/**` — 权益 CRUD
 
 ### Important caveats
 
-- **DataSource exclusion required**: The `mybatis-spring-boot-starter` triggers DataSource auto-configuration, but no JDBC driver is declared in `pom.xml` and `application.properties` is empty. You must exclude `DataSourceAutoConfiguration` via the `-Dspring.autoconfigure.exclude` property (as shown above) for both tests and `spring-boot:run`. Without this, the app fails to start.
-- **No lint tooling**: This project has no separate lint step; Maven compilation (`./mvnw compile`) is the closest equivalent.
-- **DevTools hot reload**: The `spring-boot-devtools` dependency enables LiveReload on port 35729 when running via `spring-boot:run`.
+- **H2 内存数据库**: 数据在重启后重置；`schema.sql` 和 `data.sql` 自动执行初始化。
+- **No lint tooling**: 项目无独立 lint；Maven 编译 (`./mvnw compile`) 是最接近的检查。
+- **DevTools hot reload**: `spring-boot-devtools` 在 `spring-boot:run` 时启用 LiveReload (port 35729)。

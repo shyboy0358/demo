@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.MemberLevelMapper">
+
+    <resultMap id="memberLevelMap" type="com.example.demo.entity.MemberLevel">
+        <id column="id" property="id"/>
+        <result column="level_name" property="levelName"/>
+        <result column="level_code" property="levelCode"/>
+        <result column="level_sort" property="levelSort"/>
+        <result column="min_points" property="minPoints"/>
+        <result column="max_points" property="maxPoints"/>
+        <result column="discount" property="discount"/>
+        <result column="point_multiplier" property="pointMultiplier"/>
+        <result column="icon_url" property="iconUrl"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="memberLevelMap">
+        SELECT * FROM member_level WHERE status = 1 ORDER BY level_sort ASC
+    </select>
+
+    <select id="findById" resultMap="memberLevelMap">
+        SELECT * FROM member_level WHERE id = #{id}
+    </select>
+
+    <select id="findByLevelCode" resultMap="memberLevelMap">
+        SELECT * FROM member_level WHERE level_code = #{levelCode}
+    </select>
+
+    <select id="findByPoints" resultMap="memberLevelMap">
+        SELECT * FROM member_level
+        WHERE status = 1 AND min_points &lt;= #{points}
+        ORDER BY min_points DESC
+        LIMIT 1
+    </select>
+
+    <select id="findNextLevel" resultMap="memberLevelMap">
+        SELECT * FROM member_level
+        WHERE status = 1 AND level_sort &gt; #{currentSort}
+        ORDER BY level_sort ASC
+        LIMIT 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO member_level (level_name, level_code, level_sort, min_points, max_points,
+                                  discount, point_multiplier, icon_url, description, status, create_time, update_time)
+        VALUES (#{levelName}, #{levelCode}, #{levelSort}, #{minPoints}, #{maxPoints},
+                #{discount}, #{pointMultiplier}, #{iconUrl}, #{description}, #{status}, NOW(), NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE member_level
+        <set>
+            <if test="levelName != null">level_name = #{levelName},</if>
+            <if test="levelCode != null">level_code = #{levelCode},</if>
+            <if test="levelSort != null">level_sort = #{levelSort},</if>
+            <if test="minPoints != null">min_points = #{minPoints},</if>
+            <if test="maxPoints != null">max_points = #{maxPoints},</if>
+            <if test="discount != null">discount = #{discount},</if>
+            <if test="pointMultiplier != null">point_multiplier = #{pointMultiplier},</if>
+            <if test="iconUrl != null">icon_url = #{iconUrl},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+            update_time = NOW(),
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM member_level WHERE id = #{id}
+    </delete>
+
+</mapper>
