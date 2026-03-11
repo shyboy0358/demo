@@ -83,3 +83,37 @@ INSERT INTO points_record (member_id, points, type, description)
 VALUES (2, 3500, 'EARN', '充值赠送积分');
 INSERT INTO points_record (member_id, points, type, description)
 VALUES (2, -3300, 'SPEND', '积分兑换商品');
+
+-- 家庭组示例数据
+INSERT INTO family_group (family_name, owner_user_id, owner_name, owner_phone, max_members, current_members, status)
+VALUES ('张三的家庭', 1, '张三', '13800138001', 6, 3, 1);
+
+INSERT INTO family_group (family_name, owner_user_id, owner_name, owner_phone, max_members, current_members, status)
+VALUES ('李四的家庭', 2, '李四', '13800138002', 6, 2, 1);
+
+-- 家庭成员示例数据
+INSERT INTO family_member (family_id, user_id, student_code, member_name, role, phone, school_id, school_name, department, grade, status)
+VALUES (1, 1, NULL, '张三', 'PARENT', '13800138001', NULL, NULL, NULL, NULL, 1);
+INSERT INTO family_member (family_id, user_id, student_code, member_name, role, phone, school_id, school_name, department, grade, status)
+VALUES (1, NULL, 'STU001', '张小明', 'STUDENT', NULL, 'SCH001', '北京新东方', '小学部', '三年级', 1);
+INSERT INTO family_member (family_id, user_id, student_code, member_name, role, phone, school_id, school_name, department, grade, status)
+VALUES (1, NULL, 'STU002', '张小红', 'STUDENT', NULL, 'SCH001', '北京新东方', '中学部', '初一', 1);
+
+INSERT INTO family_member (family_id, user_id, student_code, member_name, role, phone, school_id, school_name, department, grade, status)
+VALUES (2, 2, NULL, '李四', 'PARENT', '13800138002', NULL, NULL, NULL, NULL, 1);
+INSERT INTO family_member (family_id, user_id, student_code, member_name, role, phone, school_id, school_name, department, grade, status)
+VALUES (2, NULL, 'STU003', '李小强', 'STUDENT', NULL, 'SCH002', '上海新东方', '中学部', '初二', 1);
+
+-- 权益记录示例数据
+INSERT INTO benefit_record (benefit_id, benefit_name, member_id, family_id, student_code, benefit_category, goods_id, goods_name, status, remark)
+VALUES (2, '95折优惠', 1, 1, 'STU001', 'COURSE_COUPON', 'GOODS001', '数学培优班优惠券', 'CLAIMED', '已领取至张小明名下');
+INSERT INTO benefit_record (benefit_id, benefit_name, member_id, family_id, student_code, benefit_category, status, remark)
+VALUES (4, '包邮特权', 1, 1, NULL, 'EXPERIENCE', 'PENDING', '待领取');
+INSERT INTO benefit_record (benefit_id, benefit_name, member_id, family_id, student_code, benefit_category, goods_id, goods_name, status, remark)
+VALUES (5, '9折优惠', 2, 2, 'STU003', 'COURSE_COUPON', 'GOODS002', '英语提高班优惠券', 'CLAIMED', '已领取至李小强名下');
+
+-- 操作日志示例数据
+INSERT INTO operation_log (operator, operation_type, target_type, target_id, content, ip)
+VALUES ('admin', 'CREATE', 'BENEFIT', 1, '新增权益: 基础积分', '192.168.1.1');
+INSERT INTO operation_log (operator, operation_type, target_type, target_id, content, ip)
+VALUES ('admin', 'SHELF_ON', 'BENEFIT', 1, '上架权益: 基础积分', '192.168.1.1');

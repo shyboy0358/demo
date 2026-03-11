@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.FamilyMemberMapper">
+
+    <resultMap id="familyMemberMap" type="com.example.demo.entity.FamilyMember">
+        <id column="id" property="id"/>
+        <result column="family_id" property="familyId"/>
+        <result column="user_id" property="userId"/>
+        <result column="student_code" property="studentCode"/>
+        <result column="member_name" property="memberName"/>
+        <result column="role" property="role"/>
+        <result column="phone" property="phone"/>
+        <result column="school_id" property="schoolId"/>
+        <result column="school_name" property="schoolName"/>
+        <result column="department" property="department"/>
+        <result column="grade" property="grade"/>
+        <result column="status" property="status"/>
+        <result column="join_time" property="joinTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="findByFamilyId" resultMap="familyMemberMap">
+        SELECT * FROM family_member WHERE family_id = #{familyId} ORDER BY id ASC
+    </select>
+
+    <select id="findById" resultMap="familyMemberMap">
+        SELECT * FROM family_member WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO family_member (family_id, user_id, student_code, member_name, role, phone,
+                                   school_id, school_name, department, grade, status, join_time, create_time)
+        VALUES (#{familyId}, #{userId}, #{studentCode}, #{memberName}, #{role}, #{phone},
+                #{schoolId}, #{schoolName}, #{department}, #{grade}, #{status}, NOW(), NOW())
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM family_member WHERE id = #{id}
+    </delete>
+
+</mapper>

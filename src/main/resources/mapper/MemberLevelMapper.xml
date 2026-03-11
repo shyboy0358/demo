@@ -13,6 +13,13 @@
         <result column="discount" property="discount"/>
         <result column="point_multiplier" property="pointMultiplier"/>
         <result column="icon_url" property="iconUrl"/>
+        <result column="card_image_url" property="cardImageUrl"/>
+        <result column="privilege_overview_url" property="privilegeOverviewUrl"/>
+        <result column="benefit_overview_url" property="benefitOverviewUrl"/>
+        <result column="benefit_intro_url_1" property="benefitIntroUrl1"/>
+        <result column="benefit_intro_url_2" property="benefitIntroUrl2"/>
+        <result column="locked_image_url" property="lockedImageUrl"/>
+        <result column="fallback_image_url" property="fallbackImageUrl"/>
         <result column="description" property="description"/>
         <result column="status" property="status"/>
         <result column="create_time" property="createTime"/>
@@ -47,9 +54,17 @@
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO member_level (level_name, level_code, level_sort, min_points, max_points,
-                                  discount, point_multiplier, icon_url, description, status, create_time, update_time)
+                                  discount, point_multiplier, icon_url, card_image_url,
+                                  privilege_overview_url, benefit_overview_url,
+                                  benefit_intro_url_1, benefit_intro_url_2,
+                                  locked_image_url, fallback_image_url,
+                                  description, status, create_time, update_time)
         VALUES (#{levelName}, #{levelCode}, #{levelSort}, #{minPoints}, #{maxPoints},
-                #{discount}, #{pointMultiplier}, #{iconUrl}, #{description}, #{status}, NOW(), NOW())
+                #{discount}, #{pointMultiplier}, #{iconUrl}, #{cardImageUrl},
+                #{privilegeOverviewUrl}, #{benefitOverviewUrl},
+                #{benefitIntroUrl1}, #{benefitIntroUrl2},
+                #{lockedImageUrl}, #{fallbackImageUrl},
+                #{description}, #{status}, NOW(), NOW())
     </insert>
 
     <update id="update">
@@ -63,6 +78,13 @@
             <if test="discount != null">discount = #{discount},</if>
             <if test="pointMultiplier != null">point_multiplier = #{pointMultiplier},</if>
             <if test="iconUrl != null">icon_url = #{iconUrl},</if>
+            <if test="cardImageUrl != null">card_image_url = #{cardImageUrl},</if>
+            <if test="privilegeOverviewUrl != null">privilege_overview_url = #{privilegeOverviewUrl},</if>
+            <if test="benefitOverviewUrl != null">benefit_overview_url = #{benefitOverviewUrl},</if>
+            <if test="benefitIntroUrl1 != null">benefit_intro_url_1 = #{benefitIntroUrl1},</if>
+            <if test="benefitIntroUrl2 != null">benefit_intro_url_2 = #{benefitIntroUrl2},</if>
+            <if test="lockedImageUrl != null">locked_image_url = #{lockedImageUrl},</if>
+            <if test="fallbackImageUrl != null">fallback_image_url = #{fallbackImageUrl},</if>
             <if test="description != null">description = #{description},</if>
             <if test="status != null">status = #{status},</if>
             update_time = NOW(),

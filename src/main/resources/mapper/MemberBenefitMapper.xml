@@ -10,6 +10,13 @@
         <result column="benefit_type" property="benefitType"/>
         <result column="benefit_value" property="benefitValue"/>
         <result column="description" property="description"/>
+        <result column="shelf_status" property="shelfStatus"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="school_id" property="schoolId"/>
+        <result column="department" property="department"/>
+        <result column="claim_type" property="claimType"/>
+        <result column="benefit_category" property="benefitCategory"/>
+        <result column="use_url" property="useUrl"/>
         <result column="status" property="status"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -29,9 +36,13 @@
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO member_benefit (level_id, benefit_name, benefit_type, benefit_value,
-                                    description, status, create_time, update_time)
+                                    description, shelf_status, goods_id, school_id, department,
+                                    claim_type, benefit_category, use_url,
+                                    status, create_time, update_time)
         VALUES (#{levelId}, #{benefitName}, #{benefitType}, #{benefitValue},
-                #{description}, #{status}, NOW(), NOW())
+                #{description}, #{shelfStatus}, #{goodsId}, #{schoolId}, #{department},
+                #{claimType}, #{benefitCategory}, #{useUrl},
+                #{status}, NOW(), NOW())
     </insert>
 
     <update id="update">
@@ -42,6 +53,13 @@
             <if test="benefitType != null">benefit_type = #{benefitType},</if>
             <if test="benefitValue != null">benefit_value = #{benefitValue},</if>
             <if test="description != null">description = #{description},</if>
+            <if test="shelfStatus != null">shelf_status = #{shelfStatus},</if>
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+            <if test="schoolId != null">school_id = #{schoolId},</if>
+            <if test="department != null">department = #{department},</if>
+            <if test="claimType != null">claim_type = #{claimType},</if>
+            <if test="benefitCategory != null">benefit_category = #{benefitCategory},</if>
+            <if test="useUrl != null">use_url = #{useUrl},</if>
             <if test="status != null">status = #{status},</if>
             update_time = NOW(),
         </set>
@@ -55,5 +73,22 @@
     <delete id="deleteByLevelId">
         DELETE FROM member_benefit WHERE level_id = #{levelId}
     </delete>
+
+    <select id="findByQuery" resultMap="memberBenefitMap">
+        SELECT * FROM member_benefit
+        <where>
+            <if test="benefitName != null">AND benefit_name LIKE CONCAT('%', #{benefitName}, '%')</if>
+            <if test="shelfStatus != null">AND shelf_status = #{shelfStatus}</if>
+            <if test="benefitCategory != null">AND benefit_category = #{benefitCategory}</if>
+        </where>
+        ORDER BY level_id ASC, id ASC
+    </select>
+
+    <update id="updateShelfStatus">
+        UPDATE member_benefit
+        SET shelf_status = #{shelfStatus},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
 
 </mapper>

@@ -22,4 +22,8 @@ public interface MemberBenefitMapper {
     int deleteById(@Param("id") Long id);
 
     int deleteByLevelId(@Param("levelId") Long levelId);
+
+    List<MemberBenefit> findByQuery(@Param("benefitName") String benefitName, @Param("shelfStatus") String shelfStatus, @Param("benefitCategory") String benefitCategory);
+
+    int updateShelfStatus(@Param("id") Long id, @Param("shelfStatus") String shelfStatus);
 }

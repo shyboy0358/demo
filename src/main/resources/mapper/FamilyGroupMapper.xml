@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.FamilyGroupMapper">
+
+    <resultMap id="familyGroupMap" type="com.example.demo.entity.FamilyGroup">
+        <id column="id" property="id"/>
+        <result column="family_name" property="familyName"/>
+        <result column="owner_user_id" property="ownerUserId"/>
+        <result column="owner_name" property="ownerName"/>
+        <result column="owner_phone" property="ownerPhone"/>
+        <result column="max_members" property="maxMembers"/>
+        <result column="current_members" property="currentMembers"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="familyGroupMap">
+        SELECT * FROM family_group ORDER BY id ASC
+    </select>
+
+    <select id="findByQuery" resultMap="familyGroupMap">
+        SELECT * FROM family_group
+        <where>
+            <if test="familyName != null and familyName != ''">
+                AND family_name LIKE CONCAT('%', #{familyName}, '%')
+            </if>
+            <if test="ownerName != null and ownerName != ''">
+                AND owner_name LIKE CONCAT('%', #{ownerName}, '%')
+            </if>
+            <if test="ownerPhone != null and ownerPhone != ''">
+                AND owner_phone = #{ownerPhone}
+            </if>
+        </where>
+        ORDER BY id ASC
+    </select>
+
+    <select id="findById" resultMap="familyGroupMap">
+        SELECT * FROM family_group WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO family_group (family_name, owner_user_id, owner_name, owner_phone,
+                                  max_members, current_members, status, create_time, update_time)
+        VALUES (#{familyName}, #{ownerUserId}, #{ownerName}, #{ownerPhone},
+                #{maxMembers}, #{currentMembers}, #{status}, NOW(), NOW())
+    </insert>
+
+    <update id="updateCurrentMembers">
+        UPDATE family_group SET current_members = #{currentMembers}, update_time = NOW() WHERE id = #{id}
+    </update>
+
+</mapper>

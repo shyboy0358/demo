@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.BenefitRecordMapper">
+
+    <resultMap id="benefitRecordMap" type="com.example.demo.entity.BenefitRecord">
+        <id column="id" property="id"/>
+        <result column="benefit_id" property="benefitId"/>
+        <result column="benefit_name" property="benefitName"/>
+        <result column="member_id" property="memberId"/>
+        <result column="family_id" property="familyId"/>
+        <result column="student_code" property="studentCode"/>
+        <result column="benefit_category" property="benefitCategory"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="status" property="status"/>
+        <result column="claim_time" property="claimTime"/>
+        <result column="expire_time" property="expireTime"/>
+        <result column="use_time" property="useTime"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="findByMemberId" resultMap="benefitRecordMap">
+        SELECT * FROM benefit_record WHERE member_id = #{memberId} ORDER BY id ASC
+    </select>
+
+    <select id="findByFamilyId" resultMap="benefitRecordMap">
+        SELECT * FROM benefit_record WHERE family_id = #{familyId} ORDER BY id ASC
+    </select>
+
+    <select id="findById" resultMap="benefitRecordMap">
+        SELECT * FROM benefit_record WHERE id = #{id}
+    </select>
+
+    <select id="findByBenefitIdAndMemberId" resultMap="benefitRecordMap">
+        SELECT * FROM benefit_record WHERE benefit_id = #{benefitId} AND member_id = #{memberId} LIMIT 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO benefit_record (benefit_id, benefit_name, member_id, family_id, student_code,
+                                    benefit_category, goods_id, goods_name, status, remark,
+                                    create_time, update_time)
+        VALUES (#{benefitId}, #{benefitName}, #{memberId}, #{familyId}, #{studentCode},
+                #{benefitCategory}, #{goodsId}, #{goodsName}, #{status}, #{remark},
+                NOW(), NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE benefit_record
+        <set>
+            <if test="benefitName != null">benefit_name = #{benefitName},</if>
+            <if test="studentCode != null">student_code = #{studentCode},</if>
+            <if test="benefitCategory != null">benefit_category = #{benefitCategory},</if>
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+            <if test="goodsName != null">goods_name = #{goodsName},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="claimTime != null">claim_time = #{claimTime},</if>
+            <if test="expireTime != null">expire_time = #{expireTime},</if>
+            <if test="useTime != null">use_time = #{useTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            update_time = NOW(),
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>
