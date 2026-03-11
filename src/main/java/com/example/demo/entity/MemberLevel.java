@@ -17,6 +17,13 @@ public class MemberLevel implements Serializable {
     private BigDecimal discount;
     private BigDecimal pointMultiplier;
     private String iconUrl;
+    private String cardImageUrl;
+    private String privilegeOverviewUrl;
+    private String benefitOverviewUrl;
+    private String benefitIntroUrl1;
+    private String benefitIntroUrl2;
+    private String lockedImageUrl;
+    private String fallbackImageUrl;
     private String description;
     private Integer status;
     private Date createTime;
@@ -48,6 +55,27 @@ public class MemberLevel implements Serializable {
 
     public String getIconUrl() { return iconUrl; }
     public void setIconUrl(String iconUrl) { this.iconUrl = iconUrl; }
+
+    public String getCardImageUrl() { return cardImageUrl; }
+    public void setCardImageUrl(String cardImageUrl) { this.cardImageUrl = cardImageUrl; }
+
+    public String getPrivilegeOverviewUrl() { return privilegeOverviewUrl; }
+    public void setPrivilegeOverviewUrl(String privilegeOverviewUrl) { this.privilegeOverviewUrl = privilegeOverviewUrl; }
+
+    public String getBenefitOverviewUrl() { return benefitOverviewUrl; }
+    public void setBenefitOverviewUrl(String benefitOverviewUrl) { this.benefitOverviewUrl = benefitOverviewUrl; }
+
+    public String getBenefitIntroUrl1() { return benefitIntroUrl1; }
+    public void setBenefitIntroUrl1(String benefitIntroUrl1) { this.benefitIntroUrl1 = benefitIntroUrl1; }
+
+    public String getBenefitIntroUrl2() { return benefitIntroUrl2; }
+    public void setBenefitIntroUrl2(String benefitIntroUrl2) { this.benefitIntroUrl2 = benefitIntroUrl2; }
+
+    public String getLockedImageUrl() { return lockedImageUrl; }
+    public void setLockedImageUrl(String lockedImageUrl) { this.lockedImageUrl = lockedImageUrl; }
+
+    public String getFallbackImageUrl() { return fallbackImageUrl; }
+    public void setFallbackImageUrl(String fallbackImageUrl) { this.fallbackImageUrl = fallbackImageUrl; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

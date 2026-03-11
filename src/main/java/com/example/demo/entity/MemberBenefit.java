@@ -13,6 +13,13 @@ public class MemberBenefit implements Serializable {
     private String benefitType;
     private String benefitValue;
     private String description;
+    private String shelfStatus;
+    private String goodsId;
+    private String schoolId;
+    private String department;
+    private String claimType;
+    private String benefitCategory;
+    private String useUrl;
     private Integer status;
     private Date createTime;
     private Date updateTime;
@@ -34,6 +41,27 @@ public class MemberBenefit implements Serializable {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+
+    public String getShelfStatus() { return shelfStatus; }
+    public void setShelfStatus(String shelfStatus) { this.shelfStatus = shelfStatus; }
+
+    public String getGoodsId() { return goodsId; }
+    public void setGoodsId(String goodsId) { this.goodsId = goodsId; }
+
+    public String getSchoolId() { return schoolId; }
+    public void setSchoolId(String schoolId) { this.schoolId = schoolId; }
+
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
+
+    public String getClaimType() { return claimType; }
+    public void setClaimType(String claimType) { this.claimType = claimType; }
+
+    public String getBenefitCategory() { return benefitCategory; }
+    public void setBenefitCategory(String benefitCategory) { this.benefitCategory = benefitCategory; }
+
+    public String getUseUrl() { return useUrl; }
+    public void setUseUrl(String useUrl) { this.useUrl = useUrl; }
 
     public Integer getStatus() { return status; }
     public void setStatus(Integer status) { this.status = status; }
