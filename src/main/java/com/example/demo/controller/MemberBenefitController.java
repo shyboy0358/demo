@@ -43,4 +43,18 @@ public class MemberBenefitController {
         benefitService.deleteBenefit(id);
         return ApiResult.success("删除成功", null);
     }
+
+    @GetMapping("/manage")
+    public ApiResult<List<MemberBenefit>> queryBenefits(
+            @RequestParam(required = false) String benefitName,
+            @RequestParam(required = false) String shelfStatus,
+            @RequestParam(required = false) String benefitCategory) {
+        return ApiResult.success(benefitService.queryBenefits(benefitName, shelfStatus, benefitCategory));
+    }
+
+    @PutMapping("/{id}/shelf")
+    public ApiResult<MemberBenefit> updateShelfStatus(@PathVariable Long id,
+                                                       @RequestParam String shelfStatus) {
+        return ApiResult.success("更新成功", benefitService.updateShelfStatus(id, shelfStatus));
+    }
 }

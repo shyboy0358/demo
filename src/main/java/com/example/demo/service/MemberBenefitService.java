@@ -15,4 +15,8 @@ public interface MemberBenefitService {
     MemberBenefit updateBenefit(MemberBenefit benefit);
 
     void deleteBenefit(Long id);
+
+    List<MemberBenefit> queryBenefits(String benefitName, String shelfStatus, String benefitCategory);
+
+    MemberBenefit updateShelfStatus(Long id, String shelfStatus);
 }
