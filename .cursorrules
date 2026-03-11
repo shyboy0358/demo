@@ -1,0 +1,52 @@
+# 积分商城项目 — Cursor 开发规范
+
+## 语言
+始终使用中文进行沟通和代码注释。
+
+## 技术栈
+- Java 8 / Spring Boot 2.1.6 / MyBatis / H2 / Redis / Spring Security
+- 构建工具: Maven (使用 ./mvnw wrapper)
+- 测试: JUnit 4 + Spring Boot Test + MockMvc
+
+## 架构分层（严格遵守）
+```
+Controller (@RestController)
+    ↓ 调用
+Service (interface + impl, @Transactional)
+    ↓ 调用
+Mapper (@Mapper interface + XML)
+    ↓
+H2 Database (schema.sql / data.sql 自动初始化)
+```
+
+## 代码规范
+- 包名全小写: `com.example.demo.{controller,service,service.impl,mapper,entity,dto,enums,config}`
+- 实体类放 `entity/`，实现 Serializable，手写 getter/setter（项目未引入 Lombok）
+- DTO 放 `dto/`，用于 API 请求/响应的数据传输
+- 枚举放 `enums/`，带中文 description
+- Controller 返回统一响应体 `ApiResult<T>`
+- Service 接口在 `service/`，实现在 `service/impl/`
+- Mapper 接口用 `@Mapper` 注解，SQL 写在 `resources/mapper/XxxMapper.xml`
+- MyBatis XML 使用 `resultMap` 做字段映射（underscore_case → camelCase）
+- 新增数据表需同时更新 `schema.sql`（DDL）和 `data.sql`（种子数据）
+- SecurityConfig 中为新 API 路径添加 `.antMatchers("/api/xxx/**").permitAll()`
+
+## 新增功能的标准步骤
+1. 创建 Entity → 2. 创建 Enum（如需要）→ 3. 创建 Mapper 接口 + XML
+4. 创建 Service 接口 + Impl → 5. 创建 DTO（如需要）→ 6. 创建 Controller
+7. 更新 schema.sql + data.sql → 8. 更新 SecurityConfig（如有新路径）
+9. 编写测试（Service 测试 + Controller MockMvc 测试）→ 10. 运行全量测试
+
+## 测试规范
+- Service 层测试: `@SpringBootTest` + `@RunWith(SpringRunner.class)`
+- Controller 层测试: `@SpringBootTest` + `@AutoConfigureMockMvc` + MockMvc
+- 测试覆盖: 正常流程 + 异常/边界场景
+- 运行命令: `JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./mvnw test`
+
+## Git 提交规范
+- feat: 新功能
+- fix: 修复
+- refactor: 重构
+- test: 测试
+- docs: 文档
+- 提交信息使用中文描述，格式: `类型: 简要描述`
